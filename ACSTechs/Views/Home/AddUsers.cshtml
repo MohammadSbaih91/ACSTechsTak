@@ -1,0 +1,99 @@
+﻿@model ACSTechs.Common.DTO.UsersDTO
+
+@{
+    ViewBag.Title = "AddUsers";
+}
+<head>
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+    <style>
+        .isediting {
+            background-color: aquamarine;
+        }
+
+        .remove {
+            color: crimson;
+            margin-left: 46px;
+        }
+
+        #buttonAdd {
+            color: aquamarine;
+        }
+    </style>
+</head>
+
+
+<script>
+
+    $(document).ready(function () {
+        $('.edit').click(function () {
+            var row = $(this).closest('tr');
+            row.toggleClass('isediting'); 
+            var isediting = row.hasClass('isediting');
+            $(this).parent('td').siblings('td').prop('contenteditable', isediting);
+            if (isediting) {
+                $(this).text('update');
+            } else {
+                $(this).text('edit');
+            }
+        })
+        $(function () {
+            $("#buttonAdd").bind("click", function () {
+                var div = $("<div />");
+                div.html(GenerateTextbox(""));
+                $("#TextBoxContainer").append(div);
+            });
+            $("body").on("click", ".remove", function () {
+                $(this).closest("div").remove();
+            });
+        });
+        function GenerateTextbox(value) {
+            return '<div class="form-group">' +
+                '<p>User Name</p>' +
+            '<input name = "CreateTextbox" type="text" value = "' + value + '" /> ' +
+                '<a class="remove"  href="#"><i class="fa fa-minus fa-2x" aria-hidden="true"></i></a>'
+            + ' </div>'
+        }
+    });
+</script>
+
+
+
+<h2> Add Users </h2>
+
+<body>
+
+    @using (Html.BeginForm("AddUsers", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+       <a id="buttonAdd" href="#"><i class="fa fa-plus fa-2x" aria-hidden="true"></i></a>
+
+        <div id="TextBoxContainer">
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @*<input type="button" id="btn-addsection" value="Add Users" class="btn btn-default" />*@
+                <input type="submit" id="btn-addsection" value="Add Users" class="btn btn-default" />
+            </div>
+        </div>
+    }
+    @if (Model.Users != null)
+    {
+        @Html.Partial("~/Views/Shared/_UsersIndex.cshtml", Model.Users)
+
+    }
+
+
+
+</body>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<ACSTechs.Common.DTO.UsersDTO>
+
+@using (Html.BeginForm("UpdateInfo", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Usrename)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.HiddenFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.TextBoxFor(modelItem => item.Usrename)
+                </td>
+                <td>
+                    <a class="edit" href="#">Edit</a> |
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @*<input type="button" id="btn-addsection" value="Add Users" class="btn btn-default" />*@
+            <input type="submit" value="Update Users Information" class="btn btn-default" />
+        </div>
+    </div>
+
+}
